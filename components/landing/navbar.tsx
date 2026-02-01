@@ -19,32 +19,13 @@ export function Navbar() {
             </span>
           </Link>
 
-          {/* Navigation Links */}
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Características
-            </a>
-            <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Cómo funciona
-            </a>
-          </div>
-
-          {/* Auth Buttons */}
-          <div className="flex items-center gap-3">
-            <Button 
-              asChild
-              variant="ghost"
-              className="text-muted-foreground hover:text-foreground hover:bg-secondary"
-            >
-              <Link href="/auth/login">Iniciar sesión</Link>
-            </Button>
-            <Button 
-              asChild
-              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full"
-            >
-              <Link href="/auth/registro">Comenzar gratis</Link>
-            </Button>
-          </div>
+          {/* Auth Button */}
+          <Button
+            asChild
+            className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full"
+          >
+            <Link href="/auth/login">Iniciar sesión / Registrarse</Link>
+          </Button>
         </div>
       </div>
     </nav>

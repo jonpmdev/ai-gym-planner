@@ -1,5 +1,17 @@
 # AI-Gym Planner: Sistema Inteligente de Planificación Deportiva
 
+[![CI](https://github.com/jonpmdev/ai-gym-planner/actions/workflows/ci.yml/badge.svg)](https://github.com/jonpmdev/ai-gym-planner/actions/workflows/ci.yml)
+[![Deploy](https://github.com/jonpmdev/ai-gym-planner/actions/workflows/deploy.yml/badge.svg)](https://github.com/jonpmdev/ai-gym-planner/actions/workflows/deploy.yml)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+🚀 **App en Producción:** [https://ai-gym-planner-theta.vercel.app/](https://ai-gym-planner-theta.vercel.app/)
+
+📊 **Presentación del Proyecto:** [Ver Slides en Google Slides](URL_GOOGLE_SLIDES_PLACEHOLDER)
+
+---
+
 ## Descripción General
 AI-Gym Planner es una plataforma SaaS diseñada para democratizar el acceso a entrenamientos personalizados de alta calidad. Utilizando IA de última generación (Llama 3.1), la aplicación genera planificaciones mensuales (4 semanas) adaptadas al material disponible del usuario, su nivel de experiencia y objetivos específicos.
 
@@ -62,7 +74,7 @@ components/             # Biblioteca UI compartida
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone https://github.com/tu-usuario/ai-gym-planner.git
+   git clone https://github.com/jonpmdev/ai-gym-planner.git
    cd ai-gym-planner
    ```
 

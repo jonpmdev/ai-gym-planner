@@ -31,7 +31,7 @@ export default function Home() {
               {
                 step: "01",
                 title: "Crea tu cuenta",
-                description: "Regístrate gratis con tu email o con Google en segundos."
+                description: "Regístrate con tu email o con Google en segundos."
               },
               {
                 step: "02",
@@ -71,11 +71,11 @@ export default function Home() {
           <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
             Únete a miles de usuarios que ya entrenan de manera más inteligente con AI Gym Planner.
           </p>
-          <Link 
-            href="/auth/registro"
+          <Link
+            href="/auth/login"
             className="inline-flex items-center px-8 py-4 rounded-full bg-primary text-primary-foreground font-semibold text-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/25"
           >
-            Comenzar gratis
+            Empezar ahora
             <ArrowRight className="ml-2 w-5 h-5" />
           </Link>
         </div>

@@ -31,24 +31,17 @@ export function Hero() {
           Genera planes de entrenamiento personalizados de 4 semanas, adaptados a tu equipo disponible, nivel de experiencia y objetivos específicos.
         </p>
 
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-          <Button 
+        {/* CTA Button */}
+        <div className="flex justify-center items-center mb-16">
+          <Button
             asChild
-            size="lg" 
+            size="lg"
             className="text-lg px-8 py-6 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-lg shadow-primary/25"
           >
-            <Link href="/auth/registro">
-              Comenzar gratis
+            <Link href="/auth/login">
+              Empezar ahora
               <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
-          </Button>
-          <Button 
-            variant="outline" 
-            size="lg" 
-            className="text-lg px-8 py-6 rounded-full border-border hover:bg-secondary transition-all bg-transparent"
-          >
-            Ver demo
           </Button>
         </div>
 
