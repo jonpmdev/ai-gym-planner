@@ -96,12 +96,15 @@ export class GroqWorkoutGenerator implements IWorkoutGenerator {
   }
 }
 
-// Singleton instance for dependency injection
-let instance: GroqWorkoutGenerator | null = null
-
-export function getWorkoutGenerator(): IWorkoutGenerator {
-  if (!instance) {
-    instance = new GroqWorkoutGenerator()
-  }
-  return instance
+/**
+ * Factory function for dependency injection
+ *
+ * Creates a new instance of GroqWorkoutGenerator.
+ * This is preferred over singletons in serverless environments
+ * where each request should have its own instance.
+ *
+ * @returns A new IWorkoutGenerator instance
+ */
+export function createWorkoutGenerator(): IWorkoutGenerator {
+  return new GroqWorkoutGenerator()
 }

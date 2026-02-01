@@ -14,6 +14,8 @@ export {
 export {
   ExportWorkoutPlanUseCase,
   createExportWorkoutPlanUseCase,
+  UnsupportedFormatError,
   type ExportWorkoutPlanInput,
-  type ExportWorkoutPlanOutput
+  type ExportWorkoutPlanOutput,
+  type ExportFormat
 } from './export-workout-plan.use-case'

@@ -3,8 +3,8 @@
  * Clean Architecture: Thin controller that delegates to use cases
  */
 
-import { getWorkoutGenerator } from '@/src/services'
-import { 
+import { createWorkoutGenerator, createProfileValidator } from '@/src/services'
+import {
   createGenerateWorkoutPlanUseCase,
   type GenerateWorkoutPlanInput,
   ValidationError
@@ -15,9 +15,10 @@ export async function POST(req: Request) {
     // Parse request body
     const input: GenerateWorkoutPlanInput = await req.json()
 
-    // Create use case with injected dependencies
-    const generator = getWorkoutGenerator()
-    const useCase = createGenerateWorkoutPlanUseCase(generator)
+    // Create use case with injected dependencies (Factory pattern)
+    const generator = createWorkoutGenerator()
+    const validator = createProfileValidator()
+    const useCase = createGenerateWorkoutPlanUseCase(generator, validator)
 
     // Execute use case
     const result = await useCase.execute(input)

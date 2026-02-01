@@ -27,7 +27,7 @@ pnpm start        # Start production server
 pnpm lint         # Run ESLint
 ```
 
-Testing is configured with Vitest but scripts are not yet added to package.json.
+Testing is configured with Vitest. Run `pnpm test` to execute tests.
 
 ## Architecture (Clean Architecture)
 
@@ -93,7 +93,7 @@ Tables with RLS policies (users can only access their own data):
 - `routine_days` - Days within routines
 - `exercises` - Individual exercises
 
-Schema initialization: `bd_sql_inid.sql`
+Schema initialization: `supabase/schema.sql`
 
 ## Key Implementation Details
 

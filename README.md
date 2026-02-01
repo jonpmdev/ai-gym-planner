@@ -105,5 +105,79 @@ pnpm test:ui      # Tests con interfaz visual
 pnpm test:coverage # Tests con reporte de cobertura
 ```
 
-## Nota sobre Base de Datos
+## Base de Datos
 El proyecto usa el cliente Supabase directo con tipos generados mediante `supabase gen types typescript`. Los schemas Zod en el servicio de Groq proporcionan validación robusta de output de la IA.
+
+El schema de base de datos se encuentra en `supabase/schema.sql`.
+
+---
+
+## Deployment a Producción
+
+### Requisitos Previos
+- Cuenta en [Vercel](https://vercel.com)
+- Cuenta en [GitHub](https://github.com) con acceso al repositorio
+- Cuenta en [Groq](https://console.groq.com) para la API de AI
+- Proyecto de [Supabase](https://supabase.com) configurado
+
+### Paso 1: Vincular con Vercel
+
+```bash
+pnpm dlx vercel link
+```
+
+Esto creará `.vercel/project.json` con los IDs necesarios:
+```json
+{
+  "orgId": "team_xxx",      // VERCEL_ORG_ID
+  "projectId": "prj_xxx"    // VERCEL_PROJECT_ID
+}
+```
+
+### Paso 2: Generar Token de Vercel
+
+1. Ir a [Vercel Dashboard > Account Settings > Tokens](https://vercel.com/account/tokens)
+2. Crear token con nombre `github-actions-ai-gym-planner`
+3. Copiar el token generado (solo se muestra una vez)
+
+### Paso 3: Configurar GitHub Secrets
+
+En **Repository Settings > Secrets and variables > Actions**, agregar:
+
+| Secret | Descripción |
+|--------|-------------|
+| `VERCEL_TOKEN` | Token de API de Vercel |
+| `VERCEL_ORG_ID` | ID de organización (de `.vercel/project.json`) |
+| `VERCEL_PROJECT_ID` | ID del proyecto (de `.vercel/project.json`) |
+| `GROQ_API_KEY` | API key de [Groq Console](https://console.groq.com/keys) |
+| `NEXT_PUBLIC_SUPABASE_URL` | URL del proyecto Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Clave pública de Supabase |
+
+### Paso 4: Variables de Entorno en Vercel
+
+En **Vercel Dashboard > Project > Settings > Environment Variables**:
+
+| Variable | Entornos |
+|----------|----------|
+| `GROQ_API_KEY` | Production, Preview |
+| `NEXT_PUBLIC_SUPABASE_URL` | Production, Preview, Development |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Production, Preview, Development |
+| `NEXT_PUBLIC_SITE_URL` | Production |
+
+### Verificación
+
+```bash
+# Verificar build local
+pnpm build
+
+# Verificar lint
+pnpm lint
+
+# Ejecutar tests
+pnpm test
+```
+
+Los workflows de GitHub Actions se ejecutarán automáticamente:
+- **CI** (`.github/workflows/ci.yml`): En cada push y PR
+- **Deploy** (`.github/workflows/deploy.yml`): Al hacer push a main
+- **Preview** (`.github/workflows/preview.yml`): En cada PR

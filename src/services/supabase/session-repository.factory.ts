@@ -4,6 +4,10 @@
  * Provides a centralized way to create IWorkoutSessionRepository instances.
  * Follows the Factory pattern with dependency injection.
  *
+ * IMPORTANT: This factory always creates new instances, which is the correct
+ * behavior for serverless environments (Vercel, AWS Lambda, etc.) where
+ * each request should have its own instance with fresh credentials.
+ *
  * Usage:
  * ```typescript
  * const repo = await createSessionRepository()
@@ -14,6 +18,7 @@
 import { createClient } from './server'
 import { SupabaseWorkoutSessionRepository } from './supabase-session-repository'
 import type { IWorkoutSessionRepository } from '@/src/core/interfaces/workout-session.interface'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 /**
  * Creates a new IWorkoutSessionRepository instance using Supabase.
@@ -22,6 +27,9 @@ import type { IWorkoutSessionRepository } from '@/src/core/interfaces/workout-se
  * 1. Creates a server-side Supabase client with proper cookie handling
  * 2. Injects it into the repository implementation
  * 3. Returns the repository interface
+ *
+ * Each call creates a NEW instance - this is intentional for serverless
+ * environments where request isolation is important.
  *
  * @returns A promise that resolves to a fully configured session repository
  * @throws Error if Supabase is not properly configured
@@ -39,39 +47,24 @@ export async function createSessionRepository(): Promise<IWorkoutSessionReposito
 }
 
 /**
- * Singleton instance for the session repository.
- * Created lazily on first access.
+ * Creates a session repository with a pre-existing Supabase client.
  *
- * Note: Use with caution in long-running processes as it maintains
- * a connection to Supabase. Prefer creating new instances per request
- * in serverless environments.
- */
-let repositoryInstance: IWorkoutSessionRepository | null = null
-
-/**
- * Gets or creates a singleton instance of the session repository.
+ * Use this when you already have a Supabase client instance and want
+ * to avoid creating another one (e.g., sharing across multiple repositories
+ * in the same request).
  *
- * This is useful for sharing a single repository instance across
- * multiple operations in the same request/context.
- *
- * @returns A promise that resolves to the singleton repository instance
+ * @param supabase - An existing Supabase client instance
+ * @returns A new session repository using the provided client
  *
  * @example
  * ```typescript
- * const repo = await getSessionRepository()
+ * const supabase = await createClient()
+ * const sessionRepo = createSessionRepositoryWithClient(supabase)
+ * const workoutRepo = createWorkoutRepositoryWithClient(supabase)
  * ```
  */
-export async function getSessionRepository(): Promise<IWorkoutSessionRepository> {
-  if (!repositoryInstance) {
-    repositoryInstance = await createSessionRepository()
-  }
-  return repositoryInstance
-}
-
-/**
- * Resets the singleton instance.
- * Useful for testing or when you need to force recreation.
- */
-export function resetSessionRepository(): void {
-  repositoryInstance = null
+export function createSessionRepositoryWithClient(
+  supabase: SupabaseClient
+): IWorkoutSessionRepository {
+  return new SupabaseWorkoutSessionRepository(supabase)
 }

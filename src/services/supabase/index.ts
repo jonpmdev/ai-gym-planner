@@ -22,8 +22,7 @@ export {
 export { SupabaseWorkoutSessionRepository } from "./supabase-session-repository"
 export {
   createSessionRepository,
-  getSessionRepository,
-  resetSessionRepository,
+  createSessionRepositoryWithClient,
 } from "./session-repository.factory"
 
 // Mappers (useful for testing or custom implementations)

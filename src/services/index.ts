@@ -10,8 +10,15 @@
 // AI Services (server-only, but safe to import types)
 export {
   GroqWorkoutGenerator,
-  getWorkoutGenerator
+  createWorkoutGenerator
 } from './ai/groq-workout-generator.service'
+
+// Validation Services
+export {
+  ProfileValidator,
+  ValidationError as ProfileValidationError,
+  createProfileValidator
+} from './validation/profile-validator.service'
 
 export { buildPrompt } from './ai/prompt-builder'
 

@@ -2,20 +2,30 @@
  * Generate Workout Plan Use Case Tests
  *
  * Unit tests for the workout plan generation use case.
- * These tests use mocked AI generators to ensure predictable behavior.
+ * These tests use mocked AI generators and validators to ensure predictable behavior.
+ *
+ * NOTE: These tests demonstrate proper dependency injection - the use case
+ * receives both generator and validator as constructor arguments, making
+ * it fully testable without any real infrastructure dependencies.
  */
 
 import { describe, it, expect, beforeEach } from 'vitest'
 import { GenerateWorkoutPlanUseCase } from '@/src/use-cases'
+import { ProfileValidator } from '@/src/services/validation/profile-validator.service'
 import { MockWorkoutGenerator, createMockGenerator } from '../mocks/ai-generator.mock'
+import type { IProfileValidator } from '@/src/core/interfaces/workout-generator.interface'
 
 describe('GenerateWorkoutPlanUseCase', () => {
   let mockGenerator: MockWorkoutGenerator
+  let validator: IProfileValidator
   let useCase: GenerateWorkoutPlanUseCase
 
   beforeEach(() => {
     mockGenerator = createMockGenerator()
-    useCase = new GenerateWorkoutPlanUseCase(mockGenerator)
+    // Using real ProfileValidator here since we want to test actual validation rules
+    // For unit tests that need to isolate the use case, use MockProfileValidator instead
+    validator = new ProfileValidator()
+    useCase = new GenerateWorkoutPlanUseCase(mockGenerator, validator)
   })
 
   it('should generate a workout plan successfully', async () => {

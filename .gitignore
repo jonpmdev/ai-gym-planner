@@ -11,6 +11,9 @@
 PLAN_ACCION.md
 Documentacion-TFM.pdf
 
+## Vercel
+.vercel
+
 ## Build & Dependencies
 .next
 node_modules
