@@ -112,7 +112,7 @@ describe('WorkoutSessionTracker', () => {
       // Colapsar
       await user.click(exerciseCard!)
       await waitFor(() => {
-        expect(screen.queryByText('Mantén los codos a 45 grados')).not.toBeVisible()
+        expect(screen.queryByText('Mantén los codos a 45 grados')).not.toBeInTheDocument()
       })
     })
   })
@@ -179,9 +179,8 @@ describe('WorkoutSessionTracker', () => {
       })
     })
 
-    it('muestra error si falta peso o reps', async () => {
+    it('deshabilita el botón guardar si falta peso o reps', async () => {
       const user = userEvent.setup()
-      const { toast } = await import('sonner')
 
       render(<WorkoutSessionTracker {...defaultProps} />)
 
@@ -189,12 +188,9 @@ describe('WorkoutSessionTracker', () => {
       const exerciseCard = screen.getByText('Press de banca').closest('button')
       await user.click(exerciseCard!)
 
-      // Intentar guardar sin datos
+      // Verificar que el botón está deshabilitado sin datos
       const saveButton = screen.getByRole('button', { name: /guardar set/i })
-      await user.click(saveButton)
-
-      // Verificar toast de error
-      expect(toast.error).toHaveBeenCalledWith('Completa peso y repeticiones')
+      expect(saveButton).toBeDisabled()
     })
   })
 
