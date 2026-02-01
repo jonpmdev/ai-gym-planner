@@ -53,10 +53,10 @@ const groq = createGroq({
 
 /**
  * Groq-based Workout Generator
- * Uses Llama 3.1 70B for high-quality workout plan generation
+ * Uses Llama 3.3 70B for high-quality workout plan generation
  */
 export class GroqWorkoutGenerator implements IWorkoutGenerator {
-  private readonly modelId = 'llama-3.1-70b-versatile'
+  private readonly modelId = 'llama-3.3-70b-versatile'
 
   async generate(profile: UserFitnessProfile): Promise<Result<WorkoutPlan>> {
     try {
@@ -66,6 +66,11 @@ export class GroqWorkoutGenerator implements IWorkoutGenerator {
         model: groq(this.modelId),
         schema: workoutPlanSchema,
         prompt,
+        providerOptions: {
+          groq: {
+            structuredOutputs: false // Llama 3.3 no soporta json_schema, usa json_object mode
+          }
+        }
       })
 
       if (!object) {

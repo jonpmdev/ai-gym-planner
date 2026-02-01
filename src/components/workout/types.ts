@@ -2,7 +2,7 @@
  * UI Layer - Component Types
  */
 
-import type { WorkoutPlan } from '@/src/core/entities/workout.entity'
+import type { WorkoutPlan, UserFitnessProfile } from '@/src/core/entities/workout.entity'
 
 export interface WorkoutFormData {
   equipment: string[]
@@ -20,6 +20,7 @@ export interface WorkoutFormProps {
 
 export interface WorkoutPlanProps {
   plan: WorkoutPlan
+  profile: UserFitnessProfile
   onBack: () => void
   onReset: () => void
 }

@@ -1,5 +1,6 @@
 import { createBrowserClient } from "@supabase/ssr"
 import type { SupabaseClient } from "@supabase/supabase-js"
+import type { Database } from "./database.types"
 
 export function isSupabaseConfigured(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -19,7 +20,7 @@ export function isSupabaseConfigured(): boolean {
 }
 
 // Singleton client for browser
-let client: SupabaseClient | null = null
+let client: SupabaseClient<Database> | null = null
 
 export function createClient() {
   // During SSR/build, return a mock or throw a meaningful error
@@ -40,7 +41,7 @@ export function createClient() {
   // Return singleton on client side
   if (client) return client
 
-  client = createBrowserClient(
+  client = createBrowserClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )

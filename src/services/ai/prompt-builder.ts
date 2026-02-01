@@ -70,5 +70,33 @@ REQUISITOS DEL PLAN:
 8. Los nombres de los días deben ser en español (Lunes, Martes, etc. o Día 1, Día 2, etc.)
 9. El título y descripción deben ser motivadores y en español
 
-IMPORTANTE: Genera un plan realista, científicamente fundamentado y seguro.`
+IMPORTANTE: Genera un plan realista, científicamente fundamentado y seguro.
+
+Responde ÚNICAMENTE con un objeto JSON válido usando EXACTAMENTE esta estructura (los nombres de campos deben ser en inglés):
+{
+  "title": "Título del plan en español",
+  "description": "Descripción breve en español",
+  "weeks": [
+    {
+      "weekNumber": 1,
+      "theme": "Tema de la semana en español",
+      "days": [
+        {
+          "day": "Lunes",
+          "focus": "Enfoque del día en español",
+          "duration": "45-60 min",
+          "exercises": [
+            {
+              "name": "Nombre del ejercicio en español",
+              "sets": 3,
+              "reps": "8-12",
+              "rest": "60s",
+              "notes": "Notas técnicas opcionales o null"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}`
 }

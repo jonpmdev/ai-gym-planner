@@ -5,12 +5,15 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ArrowLeft, Download, Calendar, Dumbbell, Clock, RotateCcw } from "lucide-react"
+import { ArrowLeft, Download, Calendar, Dumbbell, Clock, RotateCcw, Save, Check } from "lucide-react"
+import { toast } from "sonner"
 import { createPlanExporter } from "@/src/services"
 import type { WorkoutPlanProps } from "./types"
 
-export function WorkoutPlanDisplay({ plan, onBack, onReset }: WorkoutPlanProps) {
+export function WorkoutPlanDisplay({ plan, profile, onBack, onReset }: WorkoutPlanProps) {
   const [selectedWeek, setSelectedWeek] = useState("1")
+  const [isSaving, setIsSaving] = useState(false)
+  const [isSaved, setIsSaved] = useState(false)
 
   const handleDownload = () => {
     const exporter = createPlanExporter()
@@ -22,6 +25,35 @@ export function WorkoutPlanDisplay({ plan, onBack, onReset }: WorkoutPlanProps) 
     a.download = 'plan-entrenamiento-fitai.txt'
     a.click()
     URL.revokeObjectURL(url)
+  }
+
+  const handleSave = async () => {
+    setIsSaving(true)
+
+    try {
+      const response = await fetch('/api/save-plan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan, profile })
+      })
+
+      const result = await response.json()
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.error || 'Error al guardar la rutina')
+      }
+
+      setIsSaved(true)
+      toast.success('Rutina guardada correctamente', {
+        description: 'Puedes encontrarla en tu historial'
+      })
+    } catch (error) {
+      toast.error('Error al guardar la rutina', {
+        description: error instanceof Error ? error.message : 'Inténtalo de nuevo'
+      })
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   return (
@@ -47,20 +79,43 @@ export function WorkoutPlanDisplay({ plan, onBack, onReset }: WorkoutPlanProps) 
             <p className="text-muted-foreground mt-1">{plan.description}</p>
           </div>
           <div className="flex gap-2">
-            <Button 
-              variant="outline" 
-              onClick={onReset} 
+            <Button
+              variant="outline"
+              onClick={onReset}
               className="border-border bg-transparent"
             >
               <RotateCcw className="w-4 h-4 mr-2" />
               Nuevo plan
             </Button>
-            <Button 
-              onClick={handleDownload} 
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
+            <Button
+              variant="outline"
+              onClick={handleDownload}
+              className="border-border bg-transparent"
             >
               <Download className="w-4 h-4 mr-2" />
               Descargar
+            </Button>
+            <Button
+              onClick={handleSave}
+              disabled={isSaving || isSaved}
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              {isSaving ? (
+                <>
+                  <div className="w-4 h-4 mr-2 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                  Guardando...
+                </>
+              ) : isSaved ? (
+                <>
+                  <Check className="w-4 h-4 mr-2" />
+                  Guardado
+                </>
+              ) : (
+                <>
+                  <Save className="w-4 h-4 mr-2" />
+                  Guardar rutina
+                </>
+              )}
             </Button>
           </div>
         </div>

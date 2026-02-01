@@ -53,7 +53,7 @@ export default function RegistroPage() {
       })
 
       if (error) throw error
-      router.push("/auth/verificar")
+      router.push("/dashboard")
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error al crear la cuenta")
     } finally {
